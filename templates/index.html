@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+HomePage
+{% endblock title %}
+
+{% block body %}
+<h1>HomePage</h1>
+{{request.user}}
+{{form|crispy}}
+{% endblock body %}
