@@ -42,7 +42,6 @@ def signup(request):
 
 def logout(request):
     if request.method == "POST":
-        print("logging out")
         auth_logout(request)
     return redirect("/")
 
@@ -50,14 +49,11 @@ def updateDetails(request):
     details_instance, details_created = Profile.objects.get_or_create(user=request.user)
     if request.method == "POST":
         form = DetailsForm(request.POST, request.FILES, instance=details_instance)
-        print("inside")
         if form.is_valid():
             profile = form.save(commit=False)
             profile.user = request.user
             profile.save()
             return render(request, "profile/details.html", {"form": form, "message":"Details updated!"})
-        else:
-            print(form.errors)
     form = DetailsForm(instance=details_instance)
     return render(request, "profile/details.html", {"form": form})
 
