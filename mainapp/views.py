@@ -3,6 +3,7 @@ from .forms import CreateUserForm, LoginForm, DetailsForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import authenticate
+from .models import Profile
 
 # Create your views here.
 def index(request):
@@ -34,7 +35,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('/')
+            return redirect('/updateDetails')
     else:
         form = CreateUserForm()
     return render(request, 'auth/signup.html', {'form': form})
@@ -46,8 +47,19 @@ def logout(request):
     return redirect("/")
 
 def updateDetails(request):
+    details_instance, details_created = Profile.objects.get_or_create(user=request.user)
     if request.method == "POST":
-        form = DetailsForm
-        pass
-    form = DetailsForm
+        form = DetailsForm(request.POST, request.FILES, instance=details_instance)
+        print("inside")
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return render(request, "profile/details.html", {"form": form, "message":"Details updated!"})
+        else:
+            print(form.errors)
+    form = DetailsForm(instance=details_instance)
     return render(request, "profile/details.html", {"form": form})
+
+def profile(request):
+    pass
