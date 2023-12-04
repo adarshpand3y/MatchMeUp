@@ -17,3 +17,6 @@ class Profile(models.Model):
     pic1 = models.ImageField()
     pic2 = models.ImageField()
     pic3 = models.ImageField()
+
+    def __str__(self) -> str:
+        return f"Details for: {self.user}"
