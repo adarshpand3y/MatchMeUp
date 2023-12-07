@@ -6,7 +6,20 @@ HomePage
 {% endblock title %}
 
 {% block body %}
-<h1>HomePage</h1>
-{{request.user}}
-{{form|crispy}}
+<style>
+    .body-main {
+        height: calc(100vh - 56px);
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1496433998859-da21e208bd42?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+    }
+</style>
+<div class="body-main d-flex align-items-center justify-content-center flex-column">
+    <h1 class="display-2 text-center">Match. Chat. Date.</h1>
+    <div>
+        <a href="/signup" class="btn btn-outline-primary">Signup</a>
+        <a href="/login" class="btn btn-outline-primary">Login</a>
+    </div>
+</div>
 {% endblock body %}

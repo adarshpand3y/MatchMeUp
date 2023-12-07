@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% load cloudinary %}
+
+{% block title %}
+Profile for @{{request.user}}
+{% endblock title %}
+
+{% block body %}
+<style>
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: #000;
+        border-radius: 50%;
+    }
+</style>
+<div class="container my-4" style="max-width: 600px;">
+    <div style="background-color: #2b3035;" class="p-4 rounded-4">
+        <div id="carouselExample" class="carousel slide my-2">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://res.cloudinary.com/{{cloud_name}}/image/upload/f_auto,c_fill,g_center,q_auto:eco,w_400,h_400/{{ profile.pic1 }}" alt="@{{request.user}}'s Profile Picture 1"
+        class="d-block mx-auto rounded-4 w-100">
+              </div>
+              <div class="carousel-item">
+                <img src="https://res.cloudinary.com/{{cloud_name}}/image/upload/f_auto,c_fill,g_center,q_auto:eco,w_400,h_400/{{ profile.pic2 }}" alt="@{{request.user}}'s Profile Picture 2"
+        class="d-block mx-auto rounded-4 w-100">
+              </div>
+              <div class="carousel-item">
+                <img src="https://res.cloudinary.com/{{cloud_name}}/image/upload/f_auto,c_fill,g_center,q_auto:eco,w_400,h_400/{{ profile.pic3 }}" alt="@{{request.user}}'s Profile Picture 3"
+        class="d-block mx-auto rounded-4 w-100">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        <h3 class="text-center my-2">{{profile.full_name}}</h3>
+        <h5 class="text-center my-2">{{request.user}} | {% if profile.gender == "m" %} Male {% else %} Female {% endif %}</h5>
+        <h6 class="text-center my-2">{{profile.bio}}</h6>
+        <div class="row text-center text-light w-50 mx-auto my-2">
+            <div class="col-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+                  </svg><br>
+                  <p>10 matches</p>
+                  <button class="btn btn-primary">Match</button>
+            </div>
+            <div class="col-6">
+                <svg style="fill: #f8f9fa;" xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 512 512">
+                    <path d="M305.8 2.1C314.4 5.9 320 14.5 320 24V64h16c70.7 0 128 57.3 128 128V358.7c28.3 12.3 48 40.5 48 73.3c0 44.2-35.8 80-80 80s-80-35.8-80-80c0-32.8 19.7-61 48-73.3V192c0-35.3-28.7-64-64-64H320v40c0 9.5-5.6 18.1-14.2 21.9s-18.8 2.3-25.8-4.1l-80-72c-5.1-4.6-7.9-11-7.9-17.8s2.9-13.3 7.9-17.8l80-72c7-6.3 17.2-7.9 25.8-4.1zM104 80A24 24 0 1 0 56 80a24 24 0 1 0 48 0zm8 73.3V358.7c28.3 12.3 48 40.5 48 73.3c0 44.2-35.8 80-80 80s-80-35.8-80-80c0-32.8 19.7-61 48-73.3V153.3C19.7 141 0 112.8 0 80C0 35.8 35.8 0 80 0s80 35.8 80 80c0 32.8-19.7 61-48 73.3zM104 432a24 24 0 1 0 -48 0 24 24 0 1 0 48 0zm328 24a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"/>
+                </svg><br>
+                <p>10 matches</p>
+                <button class="btn btn-outline-danger">Reject</button>
+            </div>
+        </div>
+        <p class="">{{message}}</p>
+    </div>
+</div>
+{% endblock body %}

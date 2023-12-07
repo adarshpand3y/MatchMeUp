@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=False, null=True, blank=True)
+    full_name = models.CharField(max_length=50, default="")
     genders=[
         ("m", "Male"),
         ("f", "Female")
