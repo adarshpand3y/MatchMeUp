@@ -19,7 +19,8 @@ CLOUD_NAME = os.environ.get("CLOUD_NAME")
 
 def index(request):
     if request.user.is_authenticated:
-        users = User.objects.filter()
+        traget_gender = "m" if request.user.profile.gender == "f" else "f"
+        users = User.objects.filter(is_active=True, is_staff=False, profile__gender=traget_gender)
         return render(request, "index_logged_in.html", {"users": users, "cloud_name": CLOUD_NAME})
     return render(request, "index.html")
 

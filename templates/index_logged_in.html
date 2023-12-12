@@ -15,15 +15,16 @@ HomePage
 
         {% for user in users %}
         <div class="col my-2 d-flex justify-content-center">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 19rem;">
                 <img src="https://res.cloudinary.com/{{cloud_name}}/image/upload/f_auto,c_fill,g_center,q_auto:eco,w_400,h_400/{{ user.profile.pic1 }}"
                     class="card-img-top" alt="Profile pic for {{user.profile.full_name}}">
                 <div class="card-body">
                     <h5 class="card-title">{{user.profile.full_name}}</h5>
+                    <p class="lh-1 m-0 text-muted">@{{user.username}}</p>
                     <p class="card-text">{{user.profile.bio}}</p>
                     <div class="w-100 d-flex justify-content-around">
-                        <a href="#" class="btn btn-primary">Match</a>
-                        <a href="#" class="btn btn-danger">Reject</a>
+                        <a href="/profile/{{user.username}}" class="btn btn-outline-primary">More Info</a>
+                        <a href="#" class="btn btn-outline-success">Match</a>
                     </div>
                 </div>
             </div>
