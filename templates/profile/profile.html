@@ -59,9 +59,21 @@ Profile for @{{profile.user}}
             </div>
             {% if request.user != profile.user %}
               <div class="d-flex align-items-center my-2">
-                <button class="btn btn-primary">Request Match</button>
-              </div>
-            {% endif %}
+                {% if isMatched %}
+                <button class="btn btn-outline-primary" disabled="true" type="submit">Matched</button>
+                {% else %}
+                {% if not isRequestSent %}
+                <form action="/sendRequest" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name="sent_to" value="{{profile.user}}">
+                  <button class="btn btn-primary" type="submit">Match</button>
+                </form>
+                {% else %}
+                <button class="btn btn-outline-primary" disabled="true" type="submit">Requested</button>
+              {% endif %}
+            </div>
+          {% endif %}
+                {% endif %}
         </div>
         <p class="">{{message}}</p>
     </div>

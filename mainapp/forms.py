@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Match, MatchRequest
   
 # creating a form 
 
@@ -48,3 +48,9 @@ class LoginForm(forms.Form):
 
         self.fields['username'].widget.attrs['placeholder'] = "Enter username here"
         self.fields['password'].widget.attrs['placeholder'] = "Enter password here"
+
+class MatchRequestForm(forms.Form):
+    sent_to = forms.CharField(widget=forms.HiddenInput())
+
+class MatchForm(forms.Form):
+    pass

@@ -4,9 +4,10 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
-from .forms import CreateUserForm, LoginForm, DetailsForm
-from .models import Profile
+from .forms import CreateUserForm, LoginForm, DetailsForm, MatchRequestForm, MatchForm
+from .models import Profile, Match, MatchRequest
 
 import os
 from dotenv import load_dotenv
@@ -82,4 +83,36 @@ def updateDetails(request):
 def profile(request, username):
     user = User.objects.get(username=username)
     profile = user.profile
-    return render(request, "profile/profile.html", {"user": user, "profile": profile, "cloud_name": CLOUD_NAME})
+    isRequestSent = MatchRequest.objects.filter(sent_by=request.user, sent_to=User.objects.get(username=username)).exists()
+    isMatched = True if len(Match.objects.filter(Q(user1=request.user, user2=user) | Q(user1=user, user2=request.user))) == 1 else False
+    return render(request, "profile/profile.html", {"user": user, "profile": profile, "cloud_name": CLOUD_NAME, "isRequestSent": isRequestSent, "isMatched": isMatched})
+
+@login_required(login_url="/login")
+def sendMatchRequest(request):
+    if request.method == 'POST':
+        # Create a form instance, but we won't use it to validate or display any fields
+        sent_from = request.user
+        sent_to = User.objects.get(username=request.POST.get('sent_to'))
+        if not MatchRequest.objects.filter(sent_by=request.user, sent_to=sent_to).exists():
+            # Create a Match instance
+            match_request = MatchRequest.objects.create(sent_by=request.user, sent_to=sent_to)
+            match_request.save()
+
+            # Checking if a request exists for the same people but other way around.
+            # If so, create a match object
+            if MatchRequest.objects.filter(sent_by=sent_to, sent_to=request.user).exists():
+                user_match = Match(user1=request.user, user2=sent_to)
+                user_match.save()
+                
+    return redirect(f'/profile/{sent_to}')
+
+@login_required(login_url="/login")
+def matches(request):
+    matches = Match.objects.filter(Q(user1=request.user) | Q(user2=request.user))
+    matchData = []
+    for m in matches:
+        if m.user1 == request.user:
+            matchData.append(m.user2)
+        else:
+            matchData.append(m.user1)
+    return render(request, "matches.html", {"matches": matches, "matchData": matchData, "cloud_name": CLOUD_NAME})

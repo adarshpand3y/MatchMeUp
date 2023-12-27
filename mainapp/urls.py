@@ -8,4 +8,6 @@ urlpatterns = [
     path('logout', views.logout),
     path('updateDetails', views.updateDetails),
     path('profile/<str:username>', views.profile),
+    path('sendRequest', views.sendMatchRequest),
+    path('matches', views.matches),
 ]

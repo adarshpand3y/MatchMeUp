@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% load cloudinary %}
+
+{% block title %}
+Profile for @{{profile.user}}
+{% endblock title %}
+
+{% block body %}
+<div class="container my-2" style="max-width: 600px;">
+    <h1 class="text-center my-2">Showing all matches</h1>
+    {% if matches|length == 0 %}
+        <h5 class="text-center">No matches to display</h5>
+        <p class="text-center">No worries buddy, keep trying your luck.</p>
+    {% else %}
+        {% for match in matchData %}
+        <div class="d-flex p-2 border rounded my-2">
+            <img style="height: 150px;" class="rounded-circle img-thumbnail" src="https://res.cloudinary.com/{{cloud_name}}/image/upload/f_auto,c_fill,g_center,q_auto:eco,w_400,h_400/{{ match.profile.pic1 }}" alt="@{{request.user}}'s Profile Picture">
+            <div class="p-2">
+                <h3>{{match.profile.full_name}}</h3>
+                <p>{{match.profile.bio}}</p>
+                <div class="d-flex flex-wrap">
+                    <a href="/profile/{{match}}" class="btn btn-primary m-1">More Info</a>
+                    <a href="/profile/{{match}}" class="btn btn-primary m-1">Contact Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock body %}
